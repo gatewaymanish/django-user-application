@@ -25,7 +25,7 @@ SECRET_KEY = '1*9fsk)i@g-n0b(=k+=&9(rvs#i@k4ltk^f#vm@p=k)w#2v1_4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,12 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'users',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+'allauth.socialaccount',
 ]
-
+SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -55,12 +57,23 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'users_profiler.urls'
 
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+    # facebook oauth backend
+    # 'social_auth.backends.facebook.FacebookBackend',
+)
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'users', 'templates'),
-            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'templates','users'),
+            os.path.join(BASE_DIR, 'templates', 'users','allauth'),
+            os.path.join(BASE_DIR, 'templates', 'users','allauth','account'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
